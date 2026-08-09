@@ -54,8 +54,8 @@ function Card({
           <i class="fa-regular fa-circle-right"></i>
         </div>
         <div className="flex justify-between w-full">
-          {skills.map( (skill) => (
-            <MiniCards date={skill.date} kills={skill.kills} />
+          {skills.map( (skill, idx) => (
+            <MiniCards key={idx} date={skill.date} kills={skill.kills} />
           ) )}
         </div>
       </div>

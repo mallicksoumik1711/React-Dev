@@ -180,8 +180,8 @@ function App() {
       <h1 className="text-4xl font-bold mb-5">All Users</h1>
       <div className="flex flex-wrap gap-5">
         {/* <Card /> */}
-        {objects.map((obj) => (
-          <Card
+        {objects.map((obj, idx) => (
+          <Card key={idx}
             img={obj.img}
             status={obj.status}
             dotColor={obj.dotColor}
