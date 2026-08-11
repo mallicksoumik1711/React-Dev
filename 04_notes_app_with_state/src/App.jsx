@@ -5,6 +5,7 @@ function App() {
   const [notes, setNotes] = useState("");
   const [notesDescription, setNotesDescription] = useState("");
   const [allNotes, setAllNotes] = useState([]);
+  const [editIndex, setEditIndex] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -13,9 +14,31 @@ function App() {
       return;
     }
     const allNotesCopy = [...allNotes];
-    allNotesCopy.push({ notes, notesDescription });
-    setAllNotes(allNotesCopy);
-    console.log(allNotesCopy);
+    if (editIndex !== null) {
+      // method1
+      // setAllNotes((prevNote) => {
+      //   return prevNote.map((note, index) => {
+      //     return index === editIndex ? { notes, notesDescription } : note;
+      //   });
+      // });
+
+      // method2
+      allNotesCopy[editIndex] = {
+        notes,
+        notesDescription,
+      };
+      setAllNotes(allNotesCopy);
+      setEditIndex(null);
+    } else {
+      // method1
+      // setAllNotes((prevNote) => [...prevNote, {notes, notesDescription}])
+
+      // method2
+      allNotesCopy.push({ notes, notesDescription });
+      setAllNotes(allNotesCopy);
+    }
+    setNotes("");
+    setNotesDescription("");
   };
 
   const deleteNote = (idx) => {
@@ -23,6 +46,13 @@ function App() {
     setAllNotes((prevNotes) =>
       prevNotes.filter((note, index) => index !== idx),
     );
+  };
+
+  const editNote = (idx) => {
+    // console.log("hello")
+    setNotes(allNotes[idx].notes);
+    setNotesDescription(allNotes[idx].notesDescription);
+    setEditIndex(idx);
   };
 
   return (
@@ -51,7 +81,7 @@ function App() {
               className="p-5 rounded-md font-bold active:scale-95 bg-zinc-900"
               type="submit"
             >
-              Add Note
+              {editIndex !== null ? "Update Notes" : "Add Notes"}
             </button>
           </form>
         </div>
@@ -75,7 +105,7 @@ function App() {
                   Delete
                 </button>
                 <button
-                  onClick={() => deleteNote(idx)}
+                  onClick={() => editNote(idx)}
                   className="bg-blue-400 text-blue-700 px-4 rounded-md"
                 >
                   Edit
