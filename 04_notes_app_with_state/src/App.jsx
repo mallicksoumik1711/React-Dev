@@ -8,6 +8,10 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!notes || !notesDescription) {
+      alert("Please enter Notes and description first");
+      return;
+    }
     const allNotesCopy = [...allNotes];
     allNotesCopy.push({ notes, notesDescription });
     setAllNotes(allNotesCopy);
@@ -16,8 +20,10 @@ function App() {
 
   const deleteNote = (idx) => {
     // console.log(idx)
-    setAllNotes((prevNotes) => prevNotes.filter( (note, index) => index !== idx))
-  }
+    setAllNotes((prevNotes) =>
+      prevNotes.filter((note, index) => index !== idx),
+    );
+  };
 
   return (
     <>
@@ -53,14 +59,26 @@ function App() {
           <h1 className="text-5xl p-5 font-bold">Added Notes</h1>
           <div className="notes p-5 flex flex-wrap gap-5">
             {allNotes.map((value, idx) => (
-              <div key={idx} className="flex flex-col justify-between items-start bg-zinc-900 px-10 py-4 rounded-md h-50">
+              <div
+                key={idx}
+                className="flex flex-col justify-between items-start bg-zinc-900 px-10 py-4 rounded-md h-50"
+              >
                 <div>
                   Title: {value.notes}
                   <br />
                   Description: {value.notesDescription}
                 </div>
-                <button onClick={() => deleteNote(idx)} className="bg-red-400 text-red-700 px-4 rounded-md">
+                <button
+                  onClick={() => deleteNote(idx)}
+                  className="bg-red-400 text-red-700 px-4 rounded-md"
+                >
                   Delete
+                </button>
+                <button
+                  onClick={() => deleteNote(idx)}
+                  className="bg-blue-400 text-blue-700 px-4 rounded-md"
+                >
+                  Edit
                 </button>
               </div>
             ))}
