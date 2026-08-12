@@ -18,6 +18,7 @@ function Navbar() {
             <Link to='/services'>Services</Link>
             <Link to='/products'>Products</Link>
             <Link to='/contact'>Contact</Link>
+            <Link to='/dynamic'>Dynamic</Link>
         </div>
       </div>
     </>

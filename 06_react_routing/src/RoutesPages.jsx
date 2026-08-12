@@ -7,6 +7,8 @@ import NotFound from "./pages/NotFound";
 import Products from "./pages/Products";
 import ProductsMen from "./pages/ProductsMen";
 import ProductsWomen from "./pages/ProductsWomen";
+import DynamicRouting from "./pages/DynamicRouting";
+import FetchFromDynamicRouting from "./pages/FetchFromDynamicRouting";
 
 function RoutesPages() {
   return (
@@ -16,10 +18,13 @@ function RoutesPages() {
         <Route path="/about" element={<About />} />
         <Route path="/services" element={<Services />} />
         <Route path="/products" element={<Products />}>
-            <Route path="men" element={<ProductsMen />} />
-            <Route path="women" element={<ProductsWomen />} />
+          <Route path="men" element={<ProductsMen />} />
+          <Route path="women" element={<ProductsWomen />} />
         </Route>
         <Route path="/contact" element={<Contact />} />
+
+        <Route path="/dynamic" element={<DynamicRouting />} />
+        <Route path="/dynamic/:haha" element={<FetchFromDynamicRouting />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>
