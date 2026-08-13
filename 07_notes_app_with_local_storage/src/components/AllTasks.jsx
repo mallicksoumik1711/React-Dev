@@ -1,10 +1,23 @@
 import { useNavigate } from "react-router-dom";
 
-function Alltasks({ allTask }) {
+function Alltasks({ allTask, setAlltask }) {
   const navigate = useNavigate();
 
   const handleNavigateToInput = () => {
     navigate("/");
+  };
+
+  const editHandler = () => {
+    console.log("edit button");
+  };
+
+  const deleteHandler = (idx) => {
+    setAlltask((prevTask) => {
+      return prevTask.filter((task, index) => {
+        return index !== idx;
+      });
+    });
+    console.log("delete button", idx);
   };
 
   return (
@@ -34,16 +47,20 @@ function Alltasks({ allTask }) {
                     </div>
                     <div>
                       <h1 className="text-lg">Title: {task.taskName}</h1>
-                      <p className="text-wrap">
-                        Description: {task.taskDecs}
-                      </p>
+                      <p className="text-wrap">Description: {task.taskDecs}</p>
                     </div>
                   </div>
                   <div className="flex justify-between">
-                    <button className="bg-blue-300 text-blue-800 px-6 py-1 rounded-md cursor-pointer active:scale-95 transition">
+                    <button
+                      onClick={editHandler}
+                      className="bg-blue-300 text-blue-800 px-6 py-1 rounded-md cursor-pointer active:scale-95 transition"
+                    >
                       Edit
                     </button>
-                    <button className="bg-red-300 text-red-800 px-6 py-1 rounded-md cursor-pointer active:scale-95 transition">
+                    <button
+                      onClick={() => deleteHandler(idx)}
+                      className="bg-red-300 text-red-800 px-6 py-1 rounded-md cursor-pointer active:scale-95 transition"
+                    >
                       Delete
                     </button>
                   </div>

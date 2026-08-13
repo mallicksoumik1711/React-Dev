@@ -14,7 +14,7 @@ function RoutesPages() {
     <>
       <Routes>
         <Route path="/" element={<InputFields addTask={addTask} />} />
-        <Route path="/all-tasks" element={<Alltasks allTask={allTask} />} />
+        <Route path="/all-tasks" element={<Alltasks allTask={allTask} setAlltask={setAlltask} />} />
       </Routes>
     </>
   );
