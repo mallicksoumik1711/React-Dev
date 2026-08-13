@@ -1,12 +1,10 @@
 import "./App.css";
-import Alltasks from "./components/AllTasks";
-import InputFields from "./components/InputFields";
+import RoutesPages from "./routes/RoutesPages";
 
 function App() {
   return (
     <>
-      <Alltasks />
-      <InputFields />
+      <RoutesPages />
     </>
   );
 }
