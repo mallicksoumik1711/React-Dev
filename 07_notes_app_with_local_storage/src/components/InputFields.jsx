@@ -1,16 +1,38 @@
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
-function InputFields() {
+function InputFields({addTask}) {
   const navigate = useNavigate();
+  const [taskName, setTaskname] = useState("");
+  const [imgUrl, setImgurl] = useState("");
+  const [taskDecs, setTaskdesc] = useState("");
 
   const navigateToTasks = () => {
     navigate("/all-tasks");
   };
 
   const submitHandler = (e) => {
-    e.preventDefault()
-    console.log("Submit form")
-  }
+    e.preventDefault();
+    if(!taskName || !taskDecs || !imgUrl){
+        alert("Required all fields")
+    }
+    // const newTask = () => {
+    //     return [taskName, imgUrl, taskDecs]
+    // }
+
+    const newTask = {
+        taskName,
+        imgUrl,
+        taskDecs
+    }
+
+    addTask(newTask)
+    // console.log("Submit form");
+    setTaskname("")
+    setTaskdesc("")
+    setImgurl("")
+    // console.log(newTask()[2])
+  };
 
   return (
     <>
@@ -24,6 +46,8 @@ function InputFields() {
                 <input
                   type="text"
                   placeholder="Enter task"
+                  value={taskName}
+                  onChange={(e) => setTaskname(e.target.value )}
                   className="border border-gray-700 shadow shadow-2xl outline-none px-6 py-4 rounded-md"
                 />
               </div>
@@ -32,6 +56,8 @@ function InputFields() {
                 <input
                   type="text"
                   placeholder="Enter Image URL"
+                  value={imgUrl}
+                  onChange={(e) => setImgurl(e.target.value)}
                   className="border border-gray-700 shadow shadow-2xl outline-none px-6 py-4 rounded-md"
                 />
               </div>
@@ -39,6 +65,8 @@ function InputFields() {
                 <label htmlFor="">Task description</label>
                 <textarea
                   placeholder="Enter task details"
+                  value={taskDecs}
+                  onChange={(e) => setTaskdesc(e.target.value)}
                   className="border border-gray-700 shadow shadow-2xl resize-none w-2xl outline-none px-6 py-4 rounded-md"
                 ></textarea>
               </div>
