@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-function InputFields({addTask}) {
+function InputFields({ addTask, updateTask, editTask, setEdittask }) {
   const navigate = useNavigate();
   const [taskName, setTaskname] = useState("");
   const [imgUrl, setImgurl] = useState("");
@@ -13,26 +13,41 @@ function InputFields({addTask}) {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if(!taskName || !taskDecs || !imgUrl){
-        alert("Required all fields")
+    if (!taskName || !taskDecs || !imgUrl) {
+      alert("Required all fields");
+      return
     }
     // const newTask = () => {
     //     return [taskName, imgUrl, taskDecs]
     // }
 
     const newTask = {
-        taskName,
-        imgUrl,
-        taskDecs
+      taskName,
+      imgUrl,
+      taskDecs,
+    };
+
+    if (editTask) {
+      updateTask(newTask, editTask.idx);
+      setEdittask(null)
+    } else {
+      addTask(newTask);
+      // console.log("Submit form");
+      // console.log(newTask()[2])
     }
 
-    addTask(newTask)
-    // console.log("Submit form");
-    setTaskname("")
-    setTaskdesc("")
-    setImgurl("")
-    // console.log(newTask()[2])
+    setTaskname("");
+    setTaskdesc("");
+    setImgurl("");
   };
+
+  useEffect(() => {
+    if (editTask) {
+      setTaskname(editTask.taskName);
+      setImgurl(editTask.imgUrl);
+      setTaskdesc(editTask.taskDecs);
+    }
+  }, [editTask]);
 
   return (
     <>
@@ -47,7 +62,7 @@ function InputFields({addTask}) {
                   type="text"
                   placeholder="Enter task"
                   value={taskName}
-                  onChange={(e) => setTaskname(e.target.value )}
+                  onChange={(e) => setTaskname(e.target.value)}
                   className="border border-gray-700 shadow shadow-2xl outline-none px-6 py-4 rounded-md"
                 />
               </div>
@@ -74,7 +89,7 @@ function InputFields({addTask}) {
                 type="submit"
                 className="bg-black p-4 rounded-md active:scale-95 transition cursor-pointer"
               >
-                Add task
+                {editTask !== null ? "Update task" : "Add task"}
               </button>
             </div>
           </form>

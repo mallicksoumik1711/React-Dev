@@ -1,14 +1,26 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Alltasks({ allTask, setAlltask }) {
+function Alltasks({ allTask, setAlltask, setEdittask }) {
   const navigate = useNavigate();
 
   const handleNavigateToInput = () => {
     navigate("/");
   };
 
-  const editHandler = () => {
-    console.log("edit button");
+  const editHandler = (task, idx) => {
+    // onclick -> img, name, desc -> set to input
+    // usenavigate -> navigate to input directly
+    // add task -> update task
+    // updaetask -> updated
+
+    setEdittask({
+      ...allTask[idx],
+      idx,
+    });
+    navigate("/");
+
+    console.log("edit button", task, idx);
   };
 
   const deleteHandler = (idx) => {
@@ -52,7 +64,7 @@ function Alltasks({ allTask, setAlltask }) {
                   </div>
                   <div className="flex justify-between">
                     <button
-                      onClick={editHandler}
+                      onClick={() => editHandler(task, idx)}
                       className="bg-blue-300 text-blue-800 px-6 py-1 rounded-md cursor-pointer active:scale-95 transition"
                     >
                       Edit
