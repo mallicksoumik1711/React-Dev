@@ -1,5 +1,6 @@
 import "./App.css";
-import DigitalClock from "./practice_problems/06_digital_clock/DigitalClock";
+import TimerStopWatch from "./practice_problems/07_timer_stopwatch/TimerStopWatch";
+// import DigitalClock from "./practice_problems/06_digital_clock/DigitalClock";
 // import ObjectManipulation from "./practice_problems/05_like_objects_manipulation/ObjectManipulation";
 // import Todo from "./practice_problems/04_todo_notes_app/Todo";
 // import InputCharacterCounter from "./practice_problems/03_input_character_counter/InputCharacterCounter";
@@ -14,7 +15,8 @@ function App() {
       {/* <InputCharacterCounter /> */}
       {/* <Todo /> */}
       {/* <ObjectManipulation /> */}
-      <DigitalClock />
+      {/* <DigitalClock /> */}
+      <TimerStopWatch />
     </>
   );
 }
