@@ -6,9 +6,11 @@ const [time, setTime] = useState(new Date())
 // console.log(time.getHours(), time.getMinutes(), time.getSeconds());
 
 useEffect(() => {
-    setInterval(() => {
+    const interval = setInterval(() => {
         setTime(new Date())
     }, 1000)
+
+    return () => clearInterval(interval)
 }, [])
 
   return (
