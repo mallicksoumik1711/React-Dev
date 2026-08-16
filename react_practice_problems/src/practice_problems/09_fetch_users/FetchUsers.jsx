@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 function FetchUsers() {
   const [users, setUsers] = useState([]);
+  const [search, setSearch] = useState("");
 
   const pfp = [
     "https://images.unsplash.com/photo-1786711461127-d504de113d83?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDJ8eEh4WVRNSExnT2N8fGVufDB8fHx8fA%3D%3D",
@@ -22,33 +23,49 @@ function FetchUsers() {
     setUsers(data);
   };
 
+  const searchusers = users.filter((user) => {
+    return user.name.toLowerCase().includes(search.toLowerCase());
+  });
+
   useEffect(() => {
     loadUsers();
   }, []);
 
   return (
     <>
-      {users.map((user) => (
-        <div
-          key={user.id}
-          className="bg-zinc-900 w-1/4 p-5 m-5 rounded-md word-wrap"
-        >
-          <div className="h-80">
-            <img
-              className="h-full w-full object-cover"
-              src={pfp[user.id - 1]}
-              alt="img"
-            />
-          </div>
-          <div className="mt-5">
-            <h1 className="text-2xl font-bold mb-1 word-wrap">{user.name}</h1>
-            <p className="text-sm mb-1">{user.email.toLowerCase()}</p>
-            <p className="text-xs word-wrap">
-              {user.company.name} - {user.company.catchPhrase}
-            </p>
-          </div>
-        </div>
-      ))}
+      <input
+        type="text"
+        placeholder="Search user here"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="bg-zinc-950 m-5 w-1/4 p-5 rounded-md outline-none"
+      />
+
+      {searchusers.length > 0
+        ? searchusers.map((user) => (
+            <div
+              key={user.id}
+              className="bg-zinc-900 w-1/4 p-5 m-5 rounded-md word-wrap"
+            >
+              <div className="h-80">
+                <img
+                  className="h-full w-full object-cover"
+                  src={pfp[user.id - 1]}
+                  alt="img"
+                />
+              </div>
+              <div className="mt-5">
+                <h1 className="text-2xl font-bold mb-1 word-wrap">
+                  {user.name}
+                </h1>
+                <p className="text-sm mb-1">{user.email.toLowerCase()}</p>
+                <p className="text-xs word-wrap">
+                  {user.company.name} - {user.company.catchPhrase}
+                </p>
+              </div>
+            </div>
+          ))
+        : "No users found"}
     </>
   );
 }
