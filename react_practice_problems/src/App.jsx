@@ -1,9 +1,10 @@
 import "./App.css";
+import FetchUsers from "./practice_problems/09_fetch_users/FetchUsers";
 
 // redux
-import { Provider } from "react-redux";
-import ReduxThemeSwitcher from "./practice_problems/08_redux_theme_switcher/ReduxThemeSwitcher";
-import store from "./practice_problems/08_redux_theme_switcher/redux/store/store";
+// import { Provider } from "react-redux";
+// import ReduxThemeSwitcher from "./practice_problems/08_redux_theme_switcher/ReduxThemeSwitcher";
+// import store from "./practice_problems/08_redux_theme_switcher/redux/store/store";
 
 // import TimerStopWatch from "./practice_problems/07_timer_stopwatch/TimerStopWatch";
 // import DigitalClock from "./practice_problems/06_digital_clock/DigitalClock";
@@ -23,9 +24,12 @@ function App() {
       {/* <ObjectManipulation /> */}
       {/* <DigitalClock /> */}
       {/* <TimerStopWatch /> */}
-      <Provider store={store}>
+
+      {/* <Provider store={store}>
         <ReduxThemeSwitcher />
-      </Provider>
+      </Provider> */}
+
+      <FetchUsers />
     </>
   );
 }
