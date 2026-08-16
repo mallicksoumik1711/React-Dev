@@ -2,8 +2,10 @@ import { useState } from "react";
 import CounterShow from "./CounterShow";
 import Button from "./Button";
 
+type SetterType = number;
+
 function Props() {
-  const [counter, setCounter] = useState(0);
+  const [counter, setCounter] = useState<SetterType>(0);
 
   return (
     <>
