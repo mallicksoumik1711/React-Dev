@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface TodoCardDetail {
     taskName: string;
@@ -11,16 +11,63 @@ function TodoLocalStorage() {
     const [imgUrl, setImgUrl] = useState<string>("");
     const [description, setDescription] = useState<string>("");
 
-    const [todos, setTodos] = useState<TodoCardDetail[]>([]);
+    const [edit, setEdit] = useState<number>(-1)
+
+    const savedTodos = (): TodoCardDetail[] => {
+        const savedTodosFromLS = localStorage.getItem("todos")
+        if (savedTodosFromLS) {
+            return JSON.parse(savedTodosFromLS) as TodoCardDetail[]
+        }
+        return []
+    }
+
+    const [todos, setTodos] = useState<TodoCardDetail[]>(savedTodos);
 
     const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // console.log(taskName)
-        const newTodos = {
-            taskName, imgUrl, description
+        if (!taskName || !imgUrl || !description) {
+            alert("Enter valid data")
+            return
         }
-        setTodos((prevTodos) => [...prevTodos, newTodos])
+        if (edit > -1) {
+            const copy = [...todos]
+            copy[edit] = {
+                taskName,
+                imgUrl,
+                description
+            }
+            setTodos(copy)
+            setEdit(-1)
+
+        } else {
+            const newTodos = {
+                taskName, imgUrl, description
+            }
+            setTodos((prevTodos) => [...prevTodos, newTodos])
+        }
+        setTaskName("")
+        setImgUrl("")
+        setDescription("")
     };
+
+    const deleteHandler = (idx: number) => {
+        setTodos((prev) => {
+            return prev.filter((todo, index) => {
+                return idx !== index
+            })
+        })
+    }
+
+    const editHandler = (todo: TodoCardDetail, idx: number) => {
+        setTaskName(todo.taskName)
+        setImgUrl(todo.imgUrl)
+        setDescription(todo.description)
+        setEdit(idx)
+    }
+
+    useEffect(() => {
+        localStorage.setItem("todos", JSON.stringify(todos))
+    }, [todos])
 
     return (
         <>
@@ -56,31 +103,31 @@ function TodoLocalStorage() {
                                 return setDescription(e.target.value)
                             }}
                             placeholder="Enter task description"
-                            className="bg-transparent block w-full px-10 py-4 rounded-full outline-none border-2 border-zinc-700 resize-none"
+                            className="bg-transparent block w-full px-10 py-4 rounded-full outline-none border-2 border-zinc-700 resize-none word-wrap"
                         ></textarea>
                         <button className="bg-zinc-950 py-4 rounded-full active:scale-95 transition">
                             Submit
                         </button>
                     </form>
                 </div>
-                <div className="w-1/2 p-10 flex flex-wrap gap-10 h-fit">
+                <div className="w-1/2 p-10 h-fit flex flex-wrap gap-10">
                     {todos.length > 0 ? (
                         todos.map((todo, idx) => (
-                            <div key={idx} className="bg-zinc-950 w-1/3 overflow-hidden rounded-xl">
+                            <div key={idx} className="bg-zinc-950 overflow-hidden rounded-xl w-1/3">
                                 <div className="h-60">
                                     <img
                                         className="h-full w-full object-cover"
-                                        src="https://images.unsplash.com/photo-1773332585754-f1436987743b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDF8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxfHx8ZW58MHx8fHx8"
-                                        alt=""
+                                        src={todo.imgUrl}
+                                        alt="Img"
                                     />
                                 </div>
                                 <div className="p-5">
-                                    <h1 className="text-xl">Name</h1>
-                                    <p>desc</p>
+                                    <h1 className="text-xl">{todo.taskName}</h1>
+                                    <p>{todo.description}</p>
                                 </div>
                                 <div className="px-5 py-3 flex justify-between">
-                                    <button>EDIT</button>
-                                    <button>DELETE</button>
+                                    <button onClick={() => editHandler(todo, idx)}>EDIT</button>
+                                    <button onClick={() => deleteHandler(idx)}>DELETE</button>
                                 </div>
                             </div>
                         ))
